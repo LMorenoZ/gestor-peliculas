@@ -1,13 +1,14 @@
 <?php
    include 'shared/header.php';
-   include 'db.php';
-   
+   include 'db.php'; 
 ?>
 
 <div class="container">
    <div class="row">
       <?php
-         $query = "SELECT * FROM `peliculas`";
+         $query = "SELECT * FROM `peliculas`  p
+                  INNER JOIN `generos` g ON p.gen_id = g.id_gen
+                  INNER JOIN `directores` d ON p.dir_id = d.id_dir";
          $result = mysqli_query($conn, $query);
 
          while ($peli = mysqli_fetch_array($result)) { ?>
@@ -20,6 +21,9 @@
                      <p class="fw-light"><?= $peli['duracion'] ?> min</p>
                      <p class="fw-light"><?= $peli['estreno'] ?></p>
                   </div>
+                  <a href="peliculas_crud/borrar_peli.php?id=<?= $peli['id_peli'] ?>" class="btn btn-danger">
+                     <i class="fa-solid fa-trash" style="color: #fff;"></i>
+                  </a>
                </div>
             </div>
 
@@ -37,9 +41,9 @@
                               <img class="img-fluid" src="<?= $peli['url_poster'] ?>" alt="peli"> 
                            </div>
                            <div class="col-sm-6">
-                              <div><p><strong>Genero: </strong><?= $peli['gen_id'] ?></p></div>
+                              <div><p><strong>Genero: </strong><?= $peli['genero'] ?></p></div>
                               <hr>
-                              <div><p><strong>Director:</strong> <?= $peli['dir_id'] ?></p></div>
+                              <div><p><strong>Director:</strong> <?= $peli['nombre'] ?></p></div>
                               <hr>
                               <div><p><strong>Duracion:</strong> <?= $peli['duracion'] ?> minutos</p></div>
                               <hr><div><p><strong>Estreno:</strong> <?= $peli['estreno'] ?></p></div>
